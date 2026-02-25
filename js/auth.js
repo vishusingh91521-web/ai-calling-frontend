@@ -1,8 +1,8 @@
 const BASE_URL = "https://ai-calling-backend-ws5i.onrender.com";
 
-// LOGIN FUNCTION
-async function loginUser(event) {
-  event.preventDefault();
+// ================= MANUAL LOGIN =================
+document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -10,17 +10,15 @@ async function loginUser(event) {
   try {
     const res = await fetch(`${BASE_URL}/api/auth/login`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
     });
 
     const data = await res.json();
 
-    if (data.token) {
+    if (res.ok) {
+      alert("Login Successful!");
       localStorage.setItem("token", data.token);
-      alert("Login Successful 🚀");
       window.location.href = "dashboard.html";
     } else {
       alert(data.message || "Login Failed");
@@ -30,34 +28,29 @@ async function loginUser(event) {
     alert("Server Error");
     console.log(error);
   }
-}
+});
 
-// Register function
 
-async function registerUser(event) {
-  event.preventDefault();
+// ================= GOOGLE LOGIN =================
+function handleGoogleLogin(response) {
+  const credential = response.credential;
 
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  try {
-    const res = await fetch(`${BASE_URL}/api/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password })
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      alert("Registration Successful!");
-      window.location.href = "login.html";
+  fetch(`${BASE_URL}/api/auth/google-login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: credential })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      window.location.href = "dashboard.html";
     } else {
-      alert(data.message);
+      alert("Google Login Failed");
     }
-
-  } catch (err) {
-    alert("Server error");
-  }
+  })
+  .catch(err => {
+    console.log(err);
+    alert("Google Login Error");
+  });
 }
