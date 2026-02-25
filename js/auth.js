@@ -35,7 +35,7 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
 function handleGoogleLogin(response) {
   const credential = response.credential;
 
-  fetch(`${BASE_URL}/api/auth/google`, {
+  fetch(`${BASE_URL}/api/auth/google-login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
