@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login - CallForge AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- CSS Link -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Script -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+
+<div class="login-card">
+  <h2>Welcome Back</h2>
+
+  <div class="input-group">
+    <input type="email" id="email" placeholder="Email">
+  </div>
+
+  <div class="input-group">
+    <input type="password" id="password" placeholder="Password">
+  </div>
+
+  <button class="login-btn" onclick="normalLogin()">Login</button>
+
+  <div class="divider">OR</div>
+
+  <!-- Google Login -->
+  <!-- <div id="g_id_onload"
+       data-client_id="197277517197-hdtq2jpeqpd756o7e6bn3ru4ns7ljf6g.apps.googleusercontent.com"
+       data-callback="handleCredentialResponse">
+  </div> -->
+
+  <div class="g_id_signin"
+       data-type="standard"
+       data-size="large"
+       data-theme="outline"
+       data-text="continue_with"
+       data-shape="pill">
+  </div>
+
+  <form onsubmit="loginUser(event)">
+  <input type="email" id="email" placeholder="Enter Email" required />
+  <input type="password" id="password" placeholder="Enter Password" required />
+  <button type="submit">Login</button>
+</form>
+
+</div>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

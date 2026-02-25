@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Calling Dashboard</title>
+</head>
+<body>
+
+<h1>AI Calling SaaS Dashboard 🚀</h1>
+
+<div id="userData"></div>
+<div id="upgradeSection"></div>
+
+<button onclick="logout()">Logout</button>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+const BASE_URL = "https://ai-calling-backend-ws5i.onrender.com";
+const token = localStorage.getItem("token");
+
+if (!token) {
+  alert("Please login first ❌");
+  window.location.href = "login.html";
+}
+
+// ================= LOAD USER DATA =================
+async function loadDashboard() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/dashboard/me`, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (!res.ok) throw new Error("Unauthorized");
+
+    const data = await res.json();
+
+    document.getElementById("userData").innerHTML = `
+      <p>Email: ${data.email}</p>
+      <p>Plan: ${data.plan}</p>
+      <p>Daily Call Limit: ${data.dailyCallLimit}</p>
+      <p>Expiry: ${
+        data.subscriptionExpiresAt
+          ? new Date(data.subscriptionExpiresAt).toDateString()
+          : "No Active Plan"
+      }</p>
+    `;
+
+    if (data.plan === "Free") {
+      document.getElementById("upgradeSection").innerHTML = `
+        <button onclick="createOrder('pro1999')">Upgrade ₹1999</button>
+        <button onclick="createOrder('pro3999')">Upgrade ₹3999</button>
+      `;
+    } else {
+      document.getElementById("upgradeSection").innerHTML = `
+        <p>You're on ${data.plan} Plan ✅</p>
+      `;
+    }
+
+  } catch (error) {
+    alert("Session expired ❌");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+  }
+}
+
+// ================= CREATE ORDER =================
+async function createOrder(plan) {
+
+  const res = await fetch(`${BASE_URL}/api/payment/create-order`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ plan })
+  });
+
+  const data = await res.json();
+
+  const options = {
+    key: "rzp_test_SHtrrOiatMN20Y", // Test Key
+    amount: data.order.amount,
+    currency: "INR",
+    name: "CallForge AI",
+    description: "Plan Upgrade",
+    order_id: data.order.id,
+
+    handler: async function (response) {
+
+      const verifyRes = await fetch(`${BASE_URL}/api/payment/verify-payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+          plan
+        })
+      });
+
+      const verifyData = await verifyRes.json();
+      alert(verifyData.message);
+
+      window.location.reload();
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.open();
+}
+
+// ================= LOGOUT =================
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+}
+
+loadDashboard();
+
+</script>
+
+</body>
+</html>
