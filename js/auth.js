@@ -37,7 +37,9 @@ function handleGoogleLogin(response) {
 
   fetch(`${BASE_URL}/api/auth/google-login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({ token: credential })
   })
   .then(res => res.json())
@@ -46,11 +48,11 @@ function handleGoogleLogin(response) {
       localStorage.setItem("token", data.token);
       window.location.href = "dashboard.html";
     } else {
-      alert("Google Login Failed");
+      alert(data.message || "Google Login Error");
     }
   })
-  .catch(err => {
-    console.log(err);
-    alert("Google Login Error");
+  .catch(error => {
+    alert("Google Login Failed");
+    console.log(error);
   });
 }
