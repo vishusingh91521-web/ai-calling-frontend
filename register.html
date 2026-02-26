@@ -1,26 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - CallForge AI</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<div class="container">
-  <h2>Create Account</h2>
+<nav>
+  <div class="logo">CallForge AI</div>
+</nav>
 
-  <form onsubmit="registerUser(event)">
-    <input type="text" id="name" placeholder="Full Name" required><br><br>
-    <input type="email" id="email" placeholder="Email" required><br><br>
-    <input type="password" id="password" placeholder="Password" required><br><br>
-    <button type="submit">Register</button>
-  </form>
+<section class="auth-section">
+  <div class="auth-card">
+    <h2>Create Account</h2>
+    <p>Start using AI voice automation</p>
 
-  <br>
-  <a href="login.html">Already have an account? Login</a>
-</div>
+    <form id="registerForm">
+      <input type="email" id="email" placeholder="Enter Email" required>
+      <input type="password" id="password" placeholder="Create Password" required>
+      <button type="submit" class="btn-primary full">Register</button>
+    </form>
+
+    <p class="auth-link">
+      Already have an account? <a href="login.html">Login</a>
+    </p>
+  </div>
+</section>
 
 <script src="js/auth.js"></script>
-
 </body>
 </html>

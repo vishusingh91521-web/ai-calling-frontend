@@ -1,34 +1,58 @@
 const BASE_URL = "https://ai-calling-backend-ws5i.onrender.com";
 
-// ================= MANUAL LOGIN =================
-document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
+// ================= REGISTER =================
+const registerForm = document.getElementById("registerForm");
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+if (registerForm) {
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  try {
-    const res = await fetch(`${BASE_URL}/api/auth/login`, {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const res = await fetch(`${BASE_URL}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password }),
     });
 
     const data = await res.json();
 
     if (res.ok) {
-      alert("Login Successful!");
       localStorage.setItem("token", data.token);
       window.location.href = "dashboard.html";
     } else {
-      alert(data.message || "Login Failed");
+      alert(data.message);
     }
+  });
+}
 
-  } catch (error) {
-    alert("Server Error");
-    console.log(error);
-  }
-});
+// ================= LOGIN =================
+const loginForm = document.getElementById("loginForm");
+
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const res = await fetch(`${BASE_URL}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      localStorage.setItem("token", data.token);
+      window.location.href = "dashboard.html";
+    } else {
+      alert(data.message);
+    }
+  });
+}
 
 
 // ================= GOOGLE LOGIN =================
