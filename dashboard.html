@@ -46,6 +46,8 @@ async function loadDashboard() {
           ? new Date(data.subscriptionExpiresAt).toDateString()
           : "No Active Plan"
       }</p>
+
+      <p><button onclick="startCall()">📞 Start AI Call</button></p>
     `;
 
     if (data.plan === "Free") {
@@ -66,6 +68,33 @@ async function loadDashboard() {
   }
 }
 
+// ================= START OUTBOUND CALL =================
+function startCall() {
+
+  const phone = prompt("Enter phone number with country code", "+919720131495");
+
+  if (!phone) {
+    alert("Phone number required ❌");
+    return;
+  }
+
+  fetch(`${BASE_URL}/api/call/outbound?to=${phone}`, {
+    method: "GET",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message || "Call triggered");
+    console.log(data);
+  })
+  .catch(err => {
+    console.log(err);
+    alert("Call failed ❌");
+  });
+}
+
 // ================= CREATE ORDER =================
 async function createOrder(plan) {
 
@@ -81,7 +110,7 @@ async function createOrder(plan) {
   const data = await res.json();
 
   const options = {
-    key: "rzp_test_SHtrrOiatMN20Y", // Test Key
+    key: "rzp_test_SHtrrOiatMN20Y",
     amount: data.order.amount,
     currency: "INR",
     name: "CallForge AI",
@@ -106,7 +135,6 @@ async function createOrder(plan) {
 
       const verifyData = await verifyRes.json();
       alert(verifyData.message);
-
       window.location.reload();
     }
   };
