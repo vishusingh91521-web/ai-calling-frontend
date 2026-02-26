@@ -75,4 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  function upgradePlan(planeName) {
+    localStorage.setItem("selectedPlan", planeName);
+    window.location.href = "dashboard.html";
+  }
+
 });

@@ -12,26 +12,56 @@
 
 <h1>CallForge AI Pricing</h1>
 
-<h2>Free Plan</h2>
-<p>₹0 / month</p>
-<ul>
-  <li>100 Calls per Day</li>
-  <li>15 Minutes per Call</li>
-</ul>
+<section class="pricing-section">
+  <h1 class="pricing-title">Simple & Powerful Pricing</h1>
 
-<h2>Pro 1999</h2>
-<p>₹1999 / month</p>
-<ul>
-  <li>250 Calls per Day</li>
-  <li>30 Minutes per Call</li>
-</ul>
+  <div class="pricing-container">
 
-<h2>Pro 3999</h2>
-<p>₹3999 / month</p>
-<ul>
-  <li>500 Calls per Day</li>
-  <li>40 Minutes per Call</li>
-</ul>
+    <!-- FREE PLAN -->
+    <div class="pricing-card">
+      <h2>Free</h2>
+      <h3>₹0</h3>
+      <ul>
+        <li>100 Calls / Day</li>
+        <li>15 Minutes Per Call</li>
+        <li>Basic AI Voice</li>
+        <li>Email Support</li>
+      </ul>
+      <a href="register.html" class="pricing-btn">Start Free</a>
+    </div>
+
+    <!-- PRO 1999 -->
+    <div class="pricing-card highlight">
+      <h2>Pro</h2>
+      <h3>₹1999</h3>
+      <ul>
+        <li>250 Calls / Day</li>
+        <li>30 Minutes Per Call</li>
+        <li>Advanced AI Voice</li>
+        <li>Priority Support</li>
+      </ul>
+      <button onclick="upgradePlan('pro1999')" class="pricing-btn">
+        Upgrade
+      </button>
+    </div>
+
+    <!-- PRO 3999 -->
+    <div class="pricing-card">
+      <h2>Pro+</h2>
+      <h3>₹3999</h3>
+      <ul>
+        <li>500 Calls / Day</li>
+        <li>40 Minutes Per Call</li>
+        <li>Premium AI Voice</li>
+        <li>Dedicated Support</li>
+      </ul>
+      <button onclick="upgradePlan('pro3999')" class="pricing-btn">
+        Upgrade
+      </button>
+    </div>
+
+  </div>
+</section>
 
 <a href="register.html">Register Now</a>
 <script src="js/main.js"></script>
