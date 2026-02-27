@@ -57,26 +57,22 @@ if (loginForm) {
 
 // ================= GOOGLE LOGIN =================
 function handleGoogleLogin(response) {
-  const credential = response.credential;
-
-  fetch(`${BASE_URL}/api/auth/google-login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ token: credential })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      window.location.href = "dashboard.html";
-    } else {
-      alert(data.message || "Google Login Error");
-    }
-  })
-  .catch(error => {
-    alert("Google Login Failed");
-    console.log(error);
-  });
+    fetch("https://ai-calling-backend-ws5i.onrender.com/api/auth/google-login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: response.credential
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.token) {
+            localStorage.setItem("token", data.token);
+            window.location.href = "dashboard.html";
+        } else {
+            alert("Google login failed");
+        }
+    });
 }
