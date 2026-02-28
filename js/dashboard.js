@@ -48,24 +48,26 @@ async function makeCall() {
     return;
   }
 
-  const res = await fetch(`${BASE_URL}/api/call/outbound?to=${number}`, {
-    method: "Get",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
+  const res = await fetch(
+    "https://ai-calling-backend-ws5i.onrender.com/api/call/outbound?to=" + number,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      }
     }
-  });
+  );
 
   const data = await res.json();
+  console.log(data);
 
   if (data.success) {
     alert("Call initiated successfully 🚀");
-    loadDashboard();
   } else {
     alert(data.message || "Call failed");
   }
 }
-
 function upgradePlan(plan) {
   window.location.href = "pricing.html";
 }
