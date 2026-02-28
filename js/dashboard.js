@@ -40,9 +40,19 @@ async function makeCall() {
     return;
   }
 
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Please login again");
+    window.location.href = "login.html";
+    return;
+  }
+
   const res = await fetch(`${BASE_URL}/api/call/outbound?to=${number}`, {
+    method: "Get",
     headers: {
-      "Authorization": "Bearer " + token
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
     }
   });
 
